@@ -4,7 +4,7 @@ download.file("https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUC
 
 unzip("./assign_4_dataset.zip")
 
-setwd("./UCI HAR Dataset/")
+setwd("D:/OneDrive - Infosys Limited/users/Desktop/cera/jhu-data-science/getting-and-cleaning-data/assign_4/UCI HAR Dataset/")
 
 #Reading all train data
 
@@ -52,7 +52,7 @@ Y_test<-read.table(paste("./test/Y_test.txt",sep=""),stringsAsFactors = FALSE)
 
 features<-read.table(paste("./features.txt",sep=""))
 
-activity_labels<-read.table(paste("./activity_labels.txt",sep=""))
+activity_labels<-read.table(paste("./activity_labels.txt",sep=""),stringsAsFactors = FALSE)
 
 
 #Combining train and test data
@@ -64,11 +64,6 @@ X<-rbind(X_train,X_test)
 
 Y<-rbind(Y_train,Y_test)
 
-
-#Replacing activity type with its label value
-#3. Uses descriptive activity names to name the activities in the data set
-
-Y<-merge(data.frame(V1=Y),activity_labels)[,2]
 
 #Assign descriptive column names to the features data
 #4. Appropriately labels the data set with descriptive variable names.
@@ -85,10 +80,16 @@ colnames(subject)<-"subject"
 
 b<-rbind(b_train,b_test)
 
-complete_data<-data.frame(X,b,activity=Y,subject=subject)
+complete_data<-data.frame(X,b,activity=Y$V1,subject=subject$subject)
 
-unique(complete_data$subject)
+#Replacing activity type with its label value
+#3. Uses descriptive activity names to name the activities in the data set
 
+complete_data<-merge(complete_data,activity_labels,by.x="activity",by.y = "V1",all.x = TRUE)
+
+complete_data$activity<-complete_data$V2
+
+complete_data$V2<-NULL
 
 #Getting mean of all the attributes for every subject
 #5. From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
@@ -96,6 +97,3 @@ unique(complete_data$subject)
 mean_by_subject_activity<-aggregate(. ~ subject+activity, data=complete_data ,FUN = mean)
 
 write.table(mean_by_subject_activity,"./mean_by_subject_activity.txt",sep="|",row.names = FALSE)
-
-
-
