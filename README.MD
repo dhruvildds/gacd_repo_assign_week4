@@ -8,8 +8,6 @@ output: html_document
 
 ## Assignment - Week 4 - Getting and Cleaning Data
 
-* Test
-
 This is a guide for anyone who needs to undertand how the data was process as per the requirement of the Assignment.
 
 The target audience for this are people who have enrolled for the the course [Getting and Cleaning Data](https://www.coursera.org/learn/data-cleaning/home/welcome)
@@ -29,7 +27,7 @@ The target audience for this are people who have enrolled for the the course [Ge
 
 
 
-####One R script called run_analysis.R is created that does the following
+#####One R script called run_analysis.R is created that does the following
 
 * Merges the training and the test sets to create one data set.
 * Extracts only the measurements on the mean and standard deviation for each measurement.
