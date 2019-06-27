@@ -85,7 +85,7 @@ colnames(subject)<-"subject"
 
 b<-rbind(b_train,b_test)
 
-complete_data<-data.frame(X,Y,b,subject=subject)
+complete_data<-data.frame(X,b,activity=Y,subject=subject)
 
 unique(complete_data$subject)
 
@@ -93,9 +93,9 @@ unique(complete_data$subject)
 #Getting mean of all the attributes for every subject
 #5. From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
 
-mean_by_subject<-aggregate(. ~ subject, data=complete_data ,FUN = mean)
+mean_by_subject_activity<-aggregate(. ~ subject+activity, data=complete_data ,FUN = mean)
 
-
+write.table(mean_by_subject_activity,"./mean_by_subject_activity.txt",sep="|",row.names = FALSE)
 
 
 
